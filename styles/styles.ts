@@ -6,6 +6,7 @@ import { MAX_WIDTH } from "../constants";
 export const Container = styled.section`
   margin: auto;
   max-width: ${MAX_WIDTH}px;
+  padding: 0 16px;
 `;
 
 export const GlobalStyle = createGlobalStyle`
@@ -112,6 +113,7 @@ section {
   display: block;
 }
 body {
+  scroll-behavior: smooth;
   line-height: 1;
 }
 ol,
