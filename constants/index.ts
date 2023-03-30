@@ -4,7 +4,6 @@ export enum Categories {
   EVENT = "događaji",
   ADVERTISEMENT = "reklame",
   WEDDING = "vjenčanja",
-  ALL = "svi",
 }
 
 export enum breakpoints {
@@ -23,7 +22,7 @@ export const projects = [
     image2: "/images/dp_2.png",
     video: "/videos/dani_piva_1.mp4",
     date: "08/21",
-    category: Categories.EVENT,
+    category: Categories.ADVERTISEMENT,
   },
   {
     name: "Dani Piva",
@@ -32,7 +31,7 @@ export const projects = [
     image2: "/images/dp_4.png",
     video: "/videos/dani_piva_2.mp4",
     date: "08/21",
-    category: Categories.EVENT,
+    category: Categories.WEDDING,
   },
   {
     name: "Dani Piva",
@@ -41,7 +40,7 @@ export const projects = [
     image2: "/images/dp_6.png",
     video: "/videos/dani_piva_3.mp4",
     date: "08/21",
-    category: Categories.EVENT,
+    category: Categories.WEDDING,
   },
   {
     name: "Dani Piva",

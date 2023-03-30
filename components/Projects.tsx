@@ -22,7 +22,7 @@ const Projects = () => {
   }, [query.filter]);
 
   return (
-    <Container style={{ marginBottom: "200px" }}>
+    <Container style={{ marginBottom: "200px" }} key={query.filter}>
       <Grid
         initial={{
           y: 40,
@@ -38,7 +38,7 @@ const Projects = () => {
       >
         {filteredProjects.map((project, index) => {
           return (
-            <ProjectRow key={project.name} project={project} index={index} />
+            <ProjectRow key={project.video} project={project} index={index} />
           );
         })}
       </Grid>

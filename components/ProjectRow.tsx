@@ -1,5 +1,5 @@
 import { useAnimate } from "framer-motion";
-import { useMemo } from "react";
+import { useMemo, Fragment } from "react";
 
 import {
   Content,
@@ -61,7 +61,9 @@ const ProjectRow = ({
           </Subtitle>
         </TextWrapper>
       </Content>
-      {rowContent.map((item) => item)}
+      {rowContent.map((item, index) => (
+        <Fragment key={index}>{item}</Fragment>
+      ))}
     </Row>
   );
 };

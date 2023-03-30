@@ -7,7 +7,6 @@ export const Wrapper = styled(motion.div)`
   display: flex;
   align-items: center;
   padding-block: 12px;
-  border-top: 1px solid #e9ecef;
   gap: 12px;
 `;
 
@@ -20,6 +19,7 @@ export const Button = styled(motion.button)`
   font-size: 12px;
   line-height: 15px;
   cursor: pointer;
+  white-space: nowrap;
   font-family: var(--geomanist-font);
   &[data-active="true"] {
     color: #f8f9fa;
