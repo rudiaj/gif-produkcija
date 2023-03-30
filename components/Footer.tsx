@@ -1,5 +1,11 @@
 import { Container } from "../styles/styles";
-import { ListItem, Wrapper, ListsContainer, List } from "./Footer.styles";
+import {
+  ListItem,
+  Wrapper,
+  ListsContainer,
+  List,
+  Anchor,
+} from "./Footer.styles";
 
 const initial = { opacity: 0, y: -10 };
 const whileInView = { opacity: 1, y: 0 };
@@ -50,7 +56,7 @@ const Footer = () => {
               viewport={viewport}
               transition={{ delay: 0.1 }}
             >
-              +385977929943
+              +385 97 792 9943
             </ListItem>
           </List>
           <List>
@@ -59,7 +65,12 @@ const Footer = () => {
               whileInView={whileInView}
               viewport={viewport}
             >
-              Facebook
+              <Anchor
+                href="https://www.facebook.com/gifprodukcija"
+                target="_blank"
+              >
+                Facebook
+              </Anchor>
             </ListItem>
           </List>
         </ListsContainer>

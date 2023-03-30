@@ -47,16 +47,10 @@ const ProjectRow = ({
         animate(ref.current, { opacity: 1, x: 0 }, { duration: 0.7 });
       }}
       onMouseLeave={() => {
-        animate(ref.current, { opacity: 0, x: -50 });
+        animate(ref.current, { opacity: 0, x: -20 });
       }}
     >
-      <Content
-        ref={ref}
-        initial={{
-          opacity: 0,
-          x: -50,
-        }}
-      >
+      <Content ref={ref}>
         <TextWrapper>
           <Headline>
             {name}, {location}
