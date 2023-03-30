@@ -115,6 +115,7 @@ section {
 body {
   scroll-behavior: smooth;
   line-height: 1;
+  overflow: ${({ isExpanded }) => (isExpanded ? "hidden" : "initial")};
 }
 ol,
 ul {
@@ -134,5 +135,9 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+video{
+  width: 100% ;
+  height: auto;
 }
 `;

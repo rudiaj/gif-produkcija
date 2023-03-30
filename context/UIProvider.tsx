@@ -5,20 +5,22 @@ import { createContext, useMemo, useContext, useState } from "react";
 const UIContext = createContext({
   applyOverlay: false,
   setApplyOverlay: null,
+  expandedCardIndex: null,
+  setExpandedCardIndex: null,
 });
 
 export const UIProvider = ({ children }) => {
   const [applyOverlay, setApplyOverlay] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedCardIndex, setExpandedCardIndex] = useState(null);
 
   const memoedValue = useMemo(
     () => ({
       applyOverlay,
       setApplyOverlay,
-      isExpanded,
-      setIsExpanded,
+      expandedCardIndex,
+      setExpandedCardIndex,
     }),
-    [applyOverlay, setApplyOverlay]
+    [applyOverlay, setApplyOverlay, expandedCardIndex, setExpandedCardIndex]
   );
 
   return (

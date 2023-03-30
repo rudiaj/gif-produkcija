@@ -3,8 +3,9 @@ import { Categories } from "../constants";
 import { Button, Wrapper, StickyContainer } from "./Filters.styles";
 
 const whileHover = {
-  boxShadow: "0px 0px 8px rgba(0, 0, 0, 0.2)",
+  border: "1px solid #212529",
 };
+
 const Filters = () => {
   const { push, query, pathname } = useRouter();
 
@@ -29,6 +30,7 @@ const Filters = () => {
   return (
     <StickyContainer>
       <Wrapper
+        layout
         initial={{
           y: 40,
           opacity: 0,
@@ -45,6 +47,22 @@ const Filters = () => {
         <Button
           whileHover={whileHover}
           onClick={onFilterClick}
+          data-filter-by={Categories.WEDDING}
+          data-active={query.filter === Categories.WEDDING}
+        >
+          Svi Projekti
+        </Button>
+        <Button
+          whileHover={whileHover}
+          onClick={onFilterClick}
+          data-filter-by={Categories.WEDDING}
+          data-active={query.filter === Categories.WEDDING}
+        >
+          Vjenčanja
+        </Button>
+        <Button
+          whileHover={whileHover}
+          onClick={onFilterClick}
           data-filter-by={Categories.ADVERTISEMENT}
           data-active={query.filter === Categories.ADVERTISEMENT}
         >
@@ -57,14 +75,6 @@ const Filters = () => {
           data-active={query.filter === Categories.EVENT}
         >
           Događaji
-        </Button>
-        <Button
-          whileHover={whileHover}
-          onClick={onFilterClick}
-          data-filter-by={Categories.WEDDING}
-          data-active={query.filter === Categories.WEDDING}
-        >
-          Vjenčanja
         </Button>
       </Wrapper>
     </StickyContainer>

@@ -13,6 +13,8 @@ export const List = styled.ul``;
 export const ListItem = styled(motion.li)`
   color: rgba(255, 255, 255, 0.8);
   font-family: var(--geomanist-font);
+  font-size: 12px;
+  line-height: 15px;
   text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
   &:not(:last-of-type) {
     margin-bottom: 6px;

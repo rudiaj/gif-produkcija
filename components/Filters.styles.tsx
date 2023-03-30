@@ -24,6 +24,7 @@ export const Button = styled(motion.button)`
   &[data-active="true"] {
     color: #f8f9fa;
     background: #212529;
+    border: 1px solid #212529;
   }
 `;
 

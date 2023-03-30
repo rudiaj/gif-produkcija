@@ -1,7 +1,7 @@
 import { GlobalStyle } from "../styles/styles";
 
 import localFont from "next/font/local";
-import { UIProvider } from "../context/UIProvider";
+import { UIProvider, useUI } from "../context/UIProvider";
 
 const geomanist = localFont({
   src: "../assets/Geomanist/geomanist-book-webfont.woff2",
@@ -9,10 +9,12 @@ const geomanist = localFont({
 });
 
 export default function MyApp({ Component, pageProps }) {
+  const { expandedCardIndex } = useUI();
+
+  console.log(111, expandedCardIndex);
   return (
     <div className={geomanist.className}>
       <UIProvider>
-        <GlobalStyle />
         <Component {...pageProps} />
       </UIProvider>
     </div>

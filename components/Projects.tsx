@@ -1,16 +1,15 @@
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { projects } from "../constants";
 import { Container } from "../styles/styles";
 
-import Project from "./Project";
+import ProjectRow from "./ProjectRow";
 import { Grid } from "./Projects.styles";
 
 const Projects = () => {
   const { query } = useRouter();
-  const [activeItemIndex, setActiveItemIndex] = useState(null);
 
-  const memoedProjects = useMemo(() => {
+  const filteredProjects = useMemo(() => {
     if (query.filter) {
       return projects.filter((project) => {
         if (project.category === query.filter) {
@@ -23,10 +22,7 @@ const Projects = () => {
   }, [query.filter]);
 
   return (
-    <Container
-      style={{ marginBottom: "200px" }}
-      data-expanded={activeItemIndex !== null}
-    >
+    <Container style={{ marginBottom: "200px" }}>
       <Grid
         initial={{
           y: 40,
@@ -40,15 +36,11 @@ const Projects = () => {
           duration: 0.5,
         }}
       >
-        {memoedProjects.map((project, index) => (
-          <Project
-            setActiveItemIndex={setActiveItemIndex}
-            key={project.name}
-            project={project}
-            index={index}
-            activeItemIndex={activeItemIndex}
-          />
-        ))}
+        {filteredProjects.map((project, index) => {
+          return (
+            <ProjectRow key={project.name} project={project} index={index} />
+          );
+        })}
       </Grid>
     </Container>
   );
