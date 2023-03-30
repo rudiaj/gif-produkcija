@@ -1,102 +1,30 @@
-import { AnimatePresence, useAnimate } from "framer-motion";
-import Image from "next/image";
-import { useLayoutEffect, useRef, useState } from "react";
-import { useUI } from "../context/UIProvider";
-import HoverVideoPlayer from "react-hover-video-player";
+import { useAnimate } from "framer-motion";
+import { useMemo } from "react";
 
 import {
-  VideoItem,
   Content,
   TextWrapper,
   Date,
   Subtitle,
   Headline,
-  ExpandedCard,
-  ExpandedImageWrapper,
   Row,
 } from "./ProjectRow.styles";
 import RowImage from "./RowImage";
+import RowVideo from "./RowVideo";
+
+import { useUI } from "../context/UIProvider";
 
 const ProjectRow = ({
   project: { name, image1, image2, video, date, category, location },
   index,
 }) => {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const targetRef = useRef<HTMLElement>(null);
-  const { applyOverlay, setExpandedCardIndex, expandedCardIndex } = useUI();
+  const { applyOverlay } = useUI();
   const [ref, animate] = useAnimate();
 
-  const isExpanded = expandedCardIndex === index;
-
-  const onClick = () => {
-    setExpandedCardIndex(index);
-  };
-
-  const onBackdropClick = () => {
-    setExpandedCardIndex(null);
-  };
-
-  const onExpandedImageClick = (event) => {
-    event.stopPropagation();
-    console.log(1);
-  };
-
-  useLayoutEffect(() => {
-    if (targetRef.current) {
-      setDimensions({
-        width: targetRef.current.offsetWidth * 1.3,
-        height: targetRef.current.offsetHeight * 1.3,
-      });
-    }
-  }, [setDimensions, targetRef.current]);
-
-  const rowContent = () => {
-    let firstImage = <RowImage url={image1} />;
-
-    let secondImage = <RowImage url={image2} />;
-
-    let videoContent = (
-      <>
-        <VideoItem
-          layoutId={`animate-id-${index}`}
-          onClick={onClick}
-          ref={targetRef}
-        >
-          <HoverVideoPlayer
-            muted
-            videoSrc={video}
-            style={{ objectFit: "fill" }}
-          />
-        </VideoItem>
-        <AnimatePresence>
-          {isExpanded && (
-            <ExpandedCard
-              onClick={onBackdropClick}
-              initial={{
-                backgroundColor: "rgba(0, 0, 0, 0)",
-              }}
-              animate={{
-                backgroundColor: "rgba(0, 0, 0, 0.9)",
-              }}
-              exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
-            >
-              <ExpandedImageWrapper
-                layoutId={`animate-id-${index}`}
-                width={dimensions.width}
-                height={dimensions.height}
-                onClick={onExpandedImageClick}
-              >
-                <HoverVideoPlayer
-                  muted
-                  videoSrc={video}
-                  style={{ objectFit: "fill" }}
-                />
-              </ExpandedImageWrapper>
-            </ExpandedCard>
-          )}
-        </AnimatePresence>
-      </>
-    );
+  const rowContent = useMemo(() => {
+    const firstImage = <RowImage url={image1} />;
+    const secondImage = <RowImage url={image2} />;
+    const videoContent = <RowVideo index={index} video={video} />;
 
     switch (index % 4) {
       case 0:
@@ -110,7 +38,7 @@ const ProjectRow = ({
       default:
         return [firstImage, secondImage, videoContent];
     }
-  };
+  }, [index, image1, image2, video]);
 
   return (
     <Row
@@ -139,7 +67,7 @@ const ProjectRow = ({
           </Subtitle>
         </TextWrapper>
       </Content>
-      {rowContent().map((item) => item)}
+      {rowContent.map((item) => item)}
     </Row>
   );
 };
