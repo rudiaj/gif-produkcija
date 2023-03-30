@@ -2,6 +2,7 @@ import { AnimatePresence, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 import { useUI } from "../context/UIProvider";
+import HoverVideoPlayer from "react-hover-video-player";
 
 import {
   VideoItem,
@@ -24,7 +25,6 @@ const ProjectRow = ({
   const targetRef = useRef<HTMLElement>(null);
   const { applyOverlay, setExpandedCardIndex, expandedCardIndex } = useUI();
   const [ref, animate] = useAnimate();
-  const [isHovered, setIsHovered] = useState(false);
 
   const isExpanded = expandedCardIndex === index;
 
@@ -62,16 +62,11 @@ const ProjectRow = ({
           onClick={onClick}
           ref={targetRef}
         >
-          <video
-            width={160}
-            height={90}
-            autoPlay
+          <HoverVideoPlayer
             muted
+            videoSrc={video}
             style={{ objectFit: "fill" }}
-          >
-            <source src="/videos/dani_piva.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          />
         </VideoItem>
         <AnimatePresence>
           {isExpanded && (
@@ -91,7 +86,11 @@ const ProjectRow = ({
                 height={dimensions.height}
                 onClick={onExpandedImageClick}
               >
-                <Image alt="project.name" src={video} fill />
+                <HoverVideoPlayer
+                  muted
+                  videoSrc={video}
+                  style={{ objectFit: "fill" }}
+                />
               </ExpandedImageWrapper>
             </ExpandedCard>
           )}
