@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>GIF Produkcija</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <GlobalStyle isExpanded={expandedCardIndex !== null} />

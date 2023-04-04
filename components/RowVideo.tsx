@@ -1,5 +1,4 @@
 import { AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 import HoverVideoPlayer from "react-hover-video-player";
 import { useUI } from "../context/UIProvider";
@@ -14,6 +13,7 @@ const RowVideo = ({ index, video, placeholder }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const targetRef = useRef<HTMLElement>(null);
   const { setExpandedCardIndex, expandedCardIndex } = useUI();
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
   const isExpanded = expandedCardIndex === index;
 
@@ -46,14 +46,13 @@ const RowVideo = ({ index, video, placeholder }) => {
         onClick={onClick}
         ref={targetRef}
       >
-        <HoverVideoPlayer
+        <video
+          playsInline
+          poster={placeholder}
+          autoPlay
           muted
-          // preload="none"
-          videoSrc={video}
-          loadingOverlay={
-            <Image alt="loading placeholder" src="/images/logo.svg" fill />
-          }
-          style={{ objectFit: "fill" }}
+          loop
+          src={video}
         />
       </VideoItem>
       <AnimatePresence>

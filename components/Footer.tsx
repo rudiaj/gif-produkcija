@@ -56,7 +56,7 @@ const Footer = () => {
               viewport={viewport}
               transition={{ delay: 0.1 }}
             >
-              <Anchor href="tel:+385977929943">+385 97 792 9943</Anchor>
+              <Anchor href="tel:+385977929943">+385 (97) 792 9943</Anchor>
             </ListItem>
           </List>
           <List>
