@@ -4,9 +4,10 @@ import { createGlobalStyle } from "styled-components";
 import { MAX_WIDTH } from "../constants";
 
 export const Container = styled.section`
-  margin: auto;
+  margin: 0 auto;
   max-width: ${MAX_WIDTH}px;
   padding: 0 16px;
+  flex: 1;
 `;
 
 export const GlobalStyle = createGlobalStyle`

@@ -27,7 +27,7 @@ const Navigation = () => {
     >
       <Container>
         <Wrapper>
-          <Image alt="logo" src="/logo.svg" width={166} height={32} />
+          <Image alt="logo" src="/images/logo.svg" width={166} height={32} />
           <Button>Kontakt</Button>
         </Wrapper>
       </Container>

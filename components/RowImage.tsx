@@ -4,13 +4,14 @@ import { ImageItem } from "./RowImage.styles";
 
 const RowImage = ({ url }) => {
   const [ref, animate] = useAnimate();
+
   return (
     <ImageItem
       onMouseEnter={() => {
         animate(ref.current, { scale: 1.025 }, { duration: 0.7 });
       }}
       onMouseLeave={() => {
-        animate(ref.current, { scale: 1 });
+        animate(ref.current, { scale: 1 }, { duration: 0.7 });
       }}
     >
       <Image alt="project.name" ref={ref} src={url} fill />

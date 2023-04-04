@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { breakpoints } from "../constants";
 
 export const Wrapper = styled.div`
   background: #212529;
   flex: 1;
-  padding-top: 312px;
-  padding-bottom: 94px;
+  min-height: 50vh;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 export const List = styled.ul``;
@@ -30,8 +33,13 @@ export const Anchor = styled.a`
 `;
 
 export const ListsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 50%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  width: 100%;
+  margin-bottom: 94px;
+  @media (min-width: ${breakpoints.SM}px) {
+    width: 50%;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;

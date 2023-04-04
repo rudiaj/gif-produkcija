@@ -7,11 +7,11 @@ export enum Categories {
 }
 
 export enum breakpoints {
-  XS = "0px",
-  SM = "600px",
-  MD = "900px",
-  LG = "1200px",
-  XL = "1536px",
+  XS = 0,
+  SM = 600,
+  MD = 900,
+  LG = 1200,
+  XL = 1536,
 }
 
 export const projects = [
