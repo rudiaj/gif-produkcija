@@ -38,11 +38,11 @@ const RowVideo = ({ index, video, placeholder }) => {
     console.log(1);
   };
 
-  const onMouseOver = (e) => {
+  const onMouseEnter = (e) => {
     e.target.play();
   };
 
-  const onMouseOut = (e) => {
+  const onMouseLeave = (e) => {
     e.target.pause();
   };
 
@@ -54,8 +54,8 @@ const RowVideo = ({ index, video, placeholder }) => {
         ref={targetRef}
       >
         <video
-          onMouseOver={onMouseOver}
-          onMouseOut={onMouseOut}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           playsInline
           poster={placeholder}
           autoPlay={play}
