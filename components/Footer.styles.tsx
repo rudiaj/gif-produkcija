@@ -16,8 +16,8 @@ export const List = styled.ul``;
 export const ListItem = styled(motion.li)`
   color: rgba(255, 255, 255, 0.8);
   font-family: var(--geomanist-font);
-  font-size: 18px;
-  line-height: 23px;
+  font-size: 16px;
+  line-height: 24px;
   text-transform: ${({ uppercase }) => (uppercase ? "uppercase" : "initial")};
   &:not(:last-of-type) {
     margin-bottom: 6px;
@@ -27,8 +27,8 @@ export const ListItem = styled(motion.li)`
 export const Anchor = styled.a`
   color: rgba(255, 255, 255, 0.8);
   font-family: var(--geomanist-font);
-  font-size: 18px;
-  line-height: 23px;
+  font-size: 16px;
+  line-height: 24px;
   text-decoration: none;
 `;
 

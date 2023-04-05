@@ -1,6 +1,5 @@
 import { AnimatePresence } from "framer-motion";
 import { useLayoutEffect, useRef, useState } from "react";
-import HoverVideoPlayer from "react-hover-video-player";
 import { useUI } from "../context/UIProvider";
 
 import {
@@ -13,7 +12,7 @@ const RowVideo = ({ index, video, placeholder }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const targetRef = useRef<HTMLElement>(null);
   const { setExpandedCardIndex, expandedCardIndex } = useUI();
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [play, setPlay] = useState(false);
 
   const isExpanded = expandedCardIndex === index;
 
@@ -39,6 +38,14 @@ const RowVideo = ({ index, video, placeholder }) => {
     console.log(1);
   };
 
+  const onMouseOver = (e) => {
+    e.target.play();
+  };
+
+  const onMouseOut = (e) => {
+    e.target.pause();
+  };
+
   return (
     <>
       <VideoItem
@@ -47,9 +54,11 @@ const RowVideo = ({ index, video, placeholder }) => {
         ref={targetRef}
       >
         <video
+          onMouseOver={onMouseOver}
+          onMouseOut={onMouseOut}
           playsInline
           poster={placeholder}
-          autoPlay
+          autoPlay={play}
           muted
           loop
           src={video}
@@ -73,11 +82,7 @@ const RowVideo = ({ index, video, placeholder }) => {
               height={dimensions.height}
               onClick={onExpandedImageClick}
             >
-              <HoverVideoPlayer
-                muted
-                videoSrc={video}
-                style={{ objectFit: "fill" }}
-              />
+              <video muted src={video} style={{ objectFit: "fill" }} />
             </ExpandedImageWrapper>
           </ExpandedCard>
         )}
