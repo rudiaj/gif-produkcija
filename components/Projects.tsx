@@ -37,9 +37,7 @@ const Projects = () => {
         }}
       >
         {filteredProjects.map((project, index) => {
-          return (
-            <ProjectRow key={project.video} project={project} index={index} />
-          );
+          return <ProjectRow key={index} project={project} index={index} />;
         })}
       </Grid>
     </Container>
