@@ -29,4 +29,5 @@ export const ExpandedImageWrapper = styled(motion.div)`
   position: relative;
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
+  background: #212529;
 `;

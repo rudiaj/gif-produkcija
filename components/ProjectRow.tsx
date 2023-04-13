@@ -1,5 +1,5 @@
 import { useAnimate } from "framer-motion";
-import { useMemo, Fragment } from "react";
+import { useMemo, Fragment, useRef } from "react";
 
 import {
   Content,
@@ -16,19 +16,24 @@ import { useUI } from "../context/UIProvider";
 import useWindowSize from "../hooks/useWindowSize";
 import { breakpoints } from "../constants";
 
-const ProjectRow = ({
-  project: { name, image1, image2, video, date, category, location },
-  index,
-}) => {
+const ProjectRow = ({ project, index }) => {
   const { applyOverlay } = useUI();
   const [ref, animate] = useAnimate();
   const { width } = useWindowSize();
+  const videoRef = useRef<HTMLVideoElement>();
+
+  const { image1, image2, date, category, name, location } = project;
 
   const rowContent = useMemo(() => {
     const firstImage = <RowImage url={image1} />;
     const secondImage = <RowImage url={image2} />;
     const videoContent = (
-      <RowVideo index={index} video={video} placeholder={image1} />
+      <RowVideo
+        index={index}
+        project={project}
+        videoRef={videoRef}
+        width={width}
+      />
     );
 
     if (width <= breakpoints.SM) {
@@ -55,17 +60,26 @@ const ProjectRow = ({
           return [firstImage, secondImage, videoContent];
       }
     }
-  }, [index, image1, image2, video, width]);
+  }, [index, project, image1, image2, width, videoRef]);
 
+  const onMouseEnter = () => {
+    if (videoRef.current) {
+      videoRef.current.play();
+    }
+    animate(ref.current, { opacity: 1, x: 0 }, { duration: 0.7 });
+  };
+
+  const onMouseLeave = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+    }
+    animate(ref.current, { opacity: 0, x: -20 });
+  };
   return (
     <Row
       data-apply-overlay={applyOverlay}
-      onMouseEnter={() => {
-        animate(ref.current, { opacity: 1, x: 0 }, { duration: 0.7 });
-      }}
-      onMouseLeave={() => {
-        animate(ref.current, { opacity: 0, x: -20 });
-      }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <Content ref={ref} initial={{ opacity: 0, x: -20 }}>
         <TextWrapper>

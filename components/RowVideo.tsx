@@ -1,5 +1,7 @@
 import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
+import { breakpoints } from "../constants";
 import { useUI } from "../context/UIProvider";
 
 import {
@@ -7,23 +9,33 @@ import {
   ExpandedImageWrapper,
   VideoItem,
 } from "./RowVideo.styles";
+import ReactPlayer from "react-player";
 
-const RowVideo = ({ index, video, placeholder }) => {
+const RowVideo = ({
+  index,
+  videoRef,
+  width,
+  project: { poster, fullVideo, mp4, webm, name },
+}) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const targetRef = useRef<HTMLElement>(null);
   const { setExpandedCardIndex, expandedCardIndex } = useUI();
-  const [play, setPlay] = useState(false);
 
   const isExpanded = expandedCardIndex === index;
 
   useLayoutEffect(() => {
     if (targetRef.current) {
+      const expandedElementWidth = targetRef.current.offsetWidth * 1.3;
+      const expandedElementHeight = targetRef.current.offsetHeight * 1.3;
+
+      const shouldBeFullScreen = expandedElementWidth > width;
+
       setDimensions({
-        width: targetRef.current.offsetWidth * 1.3,
-        height: targetRef.current.offsetHeight * 1.3,
+        width: shouldBeFullScreen ? width - 32 : expandedElementWidth,
+        height: shouldBeFullScreen ? width / (16 / 9) : expandedElementHeight,
       });
     }
-  }, [setDimensions, targetRef.current]);
+  }, [setDimensions, targetRef.current, width]);
 
   const onClick = () => {
     setExpandedCardIndex(index);
@@ -38,14 +50,6 @@ const RowVideo = ({ index, video, placeholder }) => {
     console.log(1);
   };
 
-  const onMouseEnter = (e) => {
-    e.target.play();
-  };
-
-  const onMouseLeave = (e) => {
-    e.target.pause();
-  };
-
   return (
     <>
       <VideoItem
@@ -53,16 +57,14 @@ const RowVideo = ({ index, video, placeholder }) => {
         onClick={onClick}
         ref={targetRef}
       >
-        <video
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-          playsInline
-          poster={placeholder}
-          autoPlay={play}
-          muted
-          loop
-          src={video}
-        />
+        {width <= breakpoints.SM ? (
+          <Image alt="poster" src={poster} fill />
+        ) : (
+          <video ref={videoRef} playsInline muted loop>
+            {mp4 ? <source src={mp4} type="video/mp4" /> : null}
+            {webm ? <source src={webm} type="video/webm" /> : null}
+          </video>
+        )}
       </VideoItem>
       <AnimatePresence>
         {isExpanded && (
@@ -82,7 +84,12 @@ const RowVideo = ({ index, video, placeholder }) => {
               height={dimensions.height}
               onClick={onExpandedImageClick}
             >
-              <video muted src={video} style={{ objectFit: "fill" }} />
+              <ReactPlayer
+                controls
+                width="100%"
+                height="100%"
+                url={fullVideo}
+              />
             </ExpandedImageWrapper>
           </ExpandedCard>
         )}

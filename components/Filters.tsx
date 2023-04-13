@@ -34,14 +34,17 @@ const Filters = () => {
         <motion.line
           x1="0"
           y1="0"
-          initial={{ x2: "0", opacity: 0 }}
-          animate={{ x2: "100%", opacity: 1 }}
+          initial={{ x2: "0", opacity: 0, stroke: "#212529" }}
+          animate={{ x2: "100%", opacity: 1, stroke: "#e9ecef" }}
           transition={{
             delay: 0.5,
-            duration: 1,
+            duration: 1.5,
+            stroke: {
+              delay: 1.75,
+              duration: 1,
+            },
           }}
           y2="0"
-          stroke="#e9ecef"
           stroke-width="1"
         />
       </svg>
