@@ -15,7 +15,7 @@ const RowVideo = ({
   index,
   videoRef,
   width,
-  project: { poster, fullVideo, mp4, webm, name },
+  project: { poster, fullVideo, mp4, webm },
 }) => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const targetRef = useRef<HTMLElement>(null);
