@@ -6,7 +6,7 @@ export const NavBar = styled(motion.nav)`
   top: 0;
   z-index: 12;
   background: rgba(255, 255, 255);
-  padding-bottom: 130px;
+  margin-bottom: 130px;
 `;
 
 export const Wrapper = styled.div`
