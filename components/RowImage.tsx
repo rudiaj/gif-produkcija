@@ -1,11 +1,14 @@
 import Image from "next/image";
-import { ImageItem } from "./RowImage.styles";
 
-const RowImage = ({ url }) => {
+interface RowImageProps {
+  url: string;
+}
+
+const RowImage: React.FC<RowImageProps> = ({ url }) => {
   return (
-    <ImageItem>
-      <Image alt="project.name" src={url} fill />
-    </ImageItem>
+    <article className="flex-1 relative overflow-hidden w-full aspect-video">
+      <Image alt="project image" src={url} fill className="object-cover" />
+    </article>
   );
 };
 

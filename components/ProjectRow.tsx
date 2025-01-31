@@ -1,26 +1,38 @@
+"use client";
+
 import { useAnimate } from "framer-motion";
 import { useMemo, Fragment, useRef } from "react";
-
-import {
-  Content,
-  TextWrapper,
-  Date,
-  Subtitle,
-  Headline,
-  Row,
-} from "./ProjectRow.styles";
-import RowImage from "./RowImage";
-import RowVideo from "./RowVideo";
-
+import { motion } from "framer-motion";
 import { useUI } from "../context/UIProvider";
 import useWindowSize from "../hooks/useWindowSize";
-import { breakpoints } from "../constants";
+import { breakpoints, Categories } from "../constants";
+import RowImage from "./RowImage";
+import RowVideo from "./RowVideo";
+import clsx from "clsx";
 
-const ProjectRow = ({ project, index }) => {
+export interface Project {
+  name: string;
+  location: string;
+  image1: string;
+  image2: string;
+  mp4: string;
+  webm?: string;
+  poster: string;
+  fullVideo: string;
+  date: string;
+  category: Categories;
+}
+
+interface ProjectProps {
+  project: Project;
+  index: number;
+}
+
+const ProjectRow = ({ project, index }: ProjectProps) => {
   const { applyOverlay } = useUI();
   const [ref, animate] = useAnimate();
   const { width } = useWindowSize();
-  const videoRef = useRef<HTMLVideoElement>();
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const { image1, image2, date, category, name, location } = project;
 
@@ -39,13 +51,9 @@ const ProjectRow = ({ project, index }) => {
     if (width <= breakpoints.SM) {
       return [videoContent];
     } else if (width > breakpoints.SM && width <= breakpoints.MD) {
-      switch (index % 2) {
-        case 0:
-          return [firstImage, videoContent];
-        case 1:
-        default:
-          return [videoContent, firstImage];
-      }
+      return index % 2 === 0
+        ? [firstImage, videoContent]
+        : [videoContent, firstImage];
     } else {
       switch (index % 4) {
         case 0:
@@ -66,36 +74,56 @@ const ProjectRow = ({ project, index }) => {
     if (videoRef.current) {
       videoRef.current.play();
     }
-    animate(ref.current, { opacity: 1, x: 0 }, { duration: 0.7 });
+    animate(
+      ref.current,
+      { opacity: 1, x: 0 },
+      { duration: 0.3, ease: [0.76, 0, 0.24, 1] }
+    );
   };
 
   const onMouseLeave = () => {
     if (videoRef.current) {
       videoRef.current.pause();
     }
-    animate(ref.current, { opacity: 0, x: -20 });
+    animate(
+      ref.current,
+      { opacity: 0, x: -20 },
+      { duration: 0.3, ease: [0.76, 0, 0.24, 1] }
+    );
   };
+
   return (
-    <Row
-      data-apply-overlay={applyOverlay}
+    <motion.div
+      className={clsx(
+        "flex relative",
+        "before:content-[''] before:absolute before:inset-0",
+        "before:bg-gradient-to-b before:from-[rgba(0,0,0,0.5)] before:to-[rgba(0,0,0,0.7)]",
+        "before:z-10 before:pointer-events-none",
+        "before:transition-opacity before:duration-200 before:ease-in-out",
+        applyOverlay ? "hover:before:opacity-0" : "before:opacity-0"
+      )}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <Content ref={ref} initial={{ opacity: 0, x: -20 }}>
-        <TextWrapper>
-          <Headline>
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, x: -20 }}
+        className="absolute p-6 flex items-end h-full z-10 pointer-events-none inset-0"
+      >
+        <div className="flex flex-col pointer-events-none [text-shadow:0_0_20px_rgba(0,0,0,1)]">
+          <h3 className="text-white/90 text-lg tracking-wider">
             {name}, {location}
-          </Headline>
-          <Subtitle>
-            <Date>{date}</Date>
+          </h3>
+          <h4 className="text-white/80 text-sm tracking-wider">
+            <span className="mr-2">{date}</span>
             <span>{category}</span>
-          </Subtitle>
-        </TextWrapper>
-      </Content>
+          </h4>
+        </div>
+      </motion.div>
       {rowContent.map((item, index) => (
         <Fragment key={index}>{item}</Fragment>
       ))}
-    </Row>
+    </motion.div>
   );
 };
 

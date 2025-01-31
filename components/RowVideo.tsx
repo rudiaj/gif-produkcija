@@ -1,17 +1,28 @@
-import { AnimatePresence } from "framer-motion";
+"use client";
+
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useLayoutEffect, useRef, useState } from "react";
 import { breakpoints } from "../constants";
 import { useUI } from "../context/UIProvider";
-
-import {
-  ExpandedCard,
-  ExpandedImageWrapper,
-  VideoItem,
-} from "./RowVideo.styles";
 import ReactPlayer from "react-player";
+import clsx from "clsx";
 
-const RowVideo = ({
+export interface ProjectVideo {
+  poster: string;
+  fullVideo: string;
+  mp4?: string;
+  webm?: string;
+}
+
+interface RowVideoProps {
+  index: number;
+  videoRef: React.RefObject<HTMLVideoElement | null>;
+  width: number;
+  project: ProjectVideo;
+}
+
+const RowVideo: React.FC<RowVideoProps> = ({
   index,
   videoRef,
   width,
@@ -35,7 +46,7 @@ const RowVideo = ({
         height: shouldBeFullScreen ? width / (16 / 9) : expandedElementHeight,
       });
     }
-  }, [setDimensions, targetRef.current, width]);
+  }, [width]);
 
   const onClick = () => {
     setExpandedCardIndex(index);
@@ -45,53 +56,67 @@ const RowVideo = ({
     setExpandedCardIndex(null);
   };
 
-  const onExpandedImageClick = (event) => {
+  const onExpandedImageClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    console.log(1);
   };
 
   return (
     <>
-      <VideoItem
-        layoutId={`animate-id-${index}`}
-        onClick={onClick}
-        ref={targetRef}
-      >
-        {width <= breakpoints.SM ? (
-          <Image alt="poster" src={poster} fill />
-        ) : (
-          <video ref={videoRef} playsInline muted loop>
-            {mp4 ? <source src={mp4} type="video/mp4" /> : null}
-            {webm ? <source src={webm} type="video/webm" /> : null}
-          </video>
-        )}
-      </VideoItem>
       <AnimatePresence>
+        <motion.article
+          layoutId={`animate-id-${index}`}
+          onClick={onClick}
+          ref={targetRef}
+          className={clsx(
+            "relative overflow-hidden w-full aspect-video cursor-pointer md:w-2/3 lg:w-1/2"
+          )}
+        >
+          {width <= breakpoints.SM ? (
+            <Image alt="poster" src={poster} fill />
+          ) : (
+            <video ref={videoRef} playsInline muted loop>
+              {mp4 && <source src={mp4} type="video/mp4" />}
+              {webm && <source src={webm} type="video/webm" />}
+            </video>
+          )}
+        </motion.article>
         {isExpanded && (
-          <ExpandedCard
+          <motion.div
             onClick={onBackdropClick}
             initial={{
-              backgroundColor: "rgba(0, 0, 0, 0)",
+              backgroundColor: "rgba(0, 0, 0, 0, 0)",
+              backdropFilter: "blur(0px)",
             }}
             animate={{
-              backgroundColor: "rgba(0, 0, 0, 0.9)",
+              backgroundColor: "rgba(0, 0, 0, 0.8)",
+              backdropFilter: "blur(12px)",
             }}
-            exit={{ backgroundColor: "rgba(0, 0, 0, 0)" }}
+            exit={{
+              backgroundColor: "rgba(0, 0, 0, 0, 0)",
+              backdropFilter: "blur(0px)",
+            }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-20 flex items-center justify-center"
           >
-            <ExpandedImageWrapper
+            <motion.div
               layoutId={`animate-id-${index}`}
-              width={dimensions.width}
-              height={dimensions.height}
+              style={{
+                width: dimensions.width,
+                height: dimensions.height,
+              }}
               onClick={onExpandedImageClick}
+              className="relative bg-dark z-30 rounded-md overflow-hidden blur-filter"
             >
               <ReactPlayer
                 controls
+                playing
                 width="100%"
                 height="100%"
+                muted
                 url={fullVideo}
               />
-            </ExpandedImageWrapper>
-          </ExpandedCard>
+            </motion.div>
+          </motion.div>
         )}
       </AnimatePresence>
     </>

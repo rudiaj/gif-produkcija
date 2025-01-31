@@ -1,35 +1,36 @@
-import { useRouter } from "next/router";
+"use client";
+
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Categories } from "../constants";
-import { Button, Wrapper, StickyContainer } from "./Filters.styles";
 
 const whileHover = {
   border: "1px solid #212529",
 };
 
 const Filters = () => {
-  const { push, query, pathname } = useRouter();
+  const router = useRouter();
 
-  const onFilterClick = (event) => {
-    const {
-      currentTarget: { dataset },
-    } = event;
+  const onFilterClick = (filterBy: string) => {
+    const url = new URL(window.location.href);
+    const currentFilter = url.searchParams.get("filter");
 
-    const url =
-      query.filter === dataset.filterBy
-        ? {
-            pathname,
-          }
-        : {
-            pathname,
-            query: { ...query, filter: dataset.filterBy },
-          };
+    if (currentFilter === filterBy) {
+      url.searchParams.delete("filter");
+    } else {
+      url.searchParams.set("filter", filterBy);
+    }
 
-    push(url, undefined, { shallow: true });
+    router.push(url.pathname + url.search);
+  };
+
+  const isFilterActive = (filter: string) => {
+    if (typeof window === "undefined") return false;
+    return new URL(window.location.href).searchParams.get("filter") === filter;
   };
 
   return (
-    <StickyContainer>
+    <div className="sticky top-[82px] z-20 bg-white container mx-auto px-4">
       <svg width="100%" height="1">
         <motion.line
           x1="0"
@@ -45,49 +46,31 @@ const Filters = () => {
             },
           }}
           y2="0"
-          stroke-width="1"
+          strokeWidth="1"
         />
       </svg>
-      <Wrapper
-        initial={{
-          y: 40,
-          opacity: 0,
-        }}
-        animate={{
-          y: 0,
-          opacity: 1,
-        }}
-        transition={{
-          delay: 0.2,
-          duration: 0.5,
-        }}
+      <motion.div
+        initial={{ y: 40, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="flex items-center py-3 gap-3"
       >
-        <Button
-          whileHover={whileHover}
-          onClick={onFilterClick}
-          data-filter-by={Categories.WEDDING}
-          data-active={query.filter === Categories.WEDDING}
-        >
-          Vjenčanja
-        </Button>
-        <Button
-          whileHover={whileHover}
-          onClick={onFilterClick}
-          data-filter-by={Categories.ADVERTISEMENT}
-          data-active={query.filter === Categories.ADVERTISEMENT}
-        >
-          Reklame
-        </Button>
-        <Button
-          whileHover={whileHover}
-          onClick={onFilterClick}
-          data-filter-by={Categories.EVENT}
-          data-active={query.filter === Categories.EVENT}
-        >
-          Događaji
-        </Button>
-      </Wrapper>
-    </StickyContainer>
+        {Object.values(Categories).map((category) => (
+          <motion.button
+            key={category}
+            whileHover={whileHover}
+            onClick={() => onFilterClick(category)}
+            className={`border border-border px-3 py-3 ${
+              isFilterActive(category)
+                ? "bg-dark text-light border-dark"
+                : "bg-transparent text-text-primary"
+            } rounded-full text-xs leading-tight font-[var(--geomanist-font)] whitespace-nowrap cursor-pointer`}
+          >
+            {category}
+          </motion.button>
+        ))}
+      </motion.div>
+    </div>
   );
 };
 

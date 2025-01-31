@@ -1,17 +1,26 @@
-import { createContext, useMemo, useContext, useState } from "react";
+"use client";
 
-// these are default values for context just to satisfy typescript, they are not used
-// docs: "The defaultValue argument is only used when a component does not have a matching Provider above it in the tree."
-const UIContext = createContext({
-  applyOverlay: false,
-  setApplyOverlay: null,
-  expandedCardIndex: null,
-  setExpandedCardIndex: null,
-});
+import { createContext, useMemo, useContext, useState, ReactNode } from "react";
 
-export const UIProvider = ({ children }) => {
-  const [applyOverlay, setApplyOverlay] = useState(false);
-  const [expandedCardIndex, setExpandedCardIndex] = useState(null);
+interface UIContextType {
+  applyOverlay: boolean;
+  setApplyOverlay: (value: boolean) => void;
+  expandedCardIndex: number | null;
+  setExpandedCardIndex: (index: number | null) => void;
+}
+
+// Create context with proper typing and undefined as initial value
+const UIContext = createContext<UIContextType | undefined>(undefined);
+
+interface UIProviderProps {
+  children: ReactNode;
+}
+
+export const UIProvider: React.FC<UIProviderProps> = ({ children }) => {
+  const [applyOverlay, setApplyOverlay] = useState<boolean>(false);
+  const [expandedCardIndex, setExpandedCardIndex] = useState<number | null>(
+    null
+  );
 
   const memoedValue = useMemo(
     () => ({
@@ -20,7 +29,7 @@ export const UIProvider = ({ children }) => {
       expandedCardIndex,
       setExpandedCardIndex,
     }),
-    [applyOverlay, setApplyOverlay, expandedCardIndex, setExpandedCardIndex]
+    [applyOverlay, expandedCardIndex]
   );
 
   return (
@@ -28,4 +37,10 @@ export const UIProvider = ({ children }) => {
   );
 };
 
-export const useUI = () => useContext(UIContext);
+export const useUI = (): UIContextType => {
+  const context = useContext(UIContext);
+  if (context === undefined) {
+    throw new Error("useUI must be used within a UIProvider");
+  }
+  return context;
+};
