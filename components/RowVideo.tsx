@@ -68,11 +68,11 @@ const RowVideo: React.FC<RowVideoProps> = ({
           onClick={onClick}
           ref={targetRef}
           className={clsx(
-            "relative overflow-hidden w-full aspect-video cursor-pointer md:w-2/3 lg:w-1/2"
+            "relative overflow-hidden w-full aspect-video cursor-pointer md:w-2/3 lg:w-1/2 "
           )}
         >
-          {width <= breakpoints.SM ? (
-            <Image alt="poster" src={poster} fill />
+          {width < breakpoints.SM ? (
+            <Image alt="poster" src={poster} fill className="object-cover" />
           ) : (
             <video ref={videoRef} playsInline muted loop>
               {mp4 && <source src={mp4} type="video/mp4" />}

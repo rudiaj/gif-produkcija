@@ -108,7 +108,7 @@ const ProjectRow = ({ project, index }: ProjectProps) => {
       <motion.div
         ref={ref}
         initial={{ opacity: 0, x: -20 }}
-        className="absolute p-6 flex items-end h-full z-10 pointer-events-none inset-0"
+        className="absolute p-6 flex items-end h-full z-10 pointer-events-none"
       >
         <div className="flex flex-col pointer-events-none [text-shadow:0_0_20px_rgba(0,0,0,1)]">
           <h3 className="text-white/90 text-lg tracking-wider">
