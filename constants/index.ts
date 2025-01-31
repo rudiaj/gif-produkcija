@@ -1,3 +1,5 @@
+import { Project } from "@/components/ProjectRow";
+
 export const MAX_WIDTH = 1452;
 
 export enum Categories {
@@ -23,7 +25,7 @@ export const projects = [
     mp4: "/videos/Dani_mlina_2022.mp4",
     webm: "/videos/Dani_mlina_2022.webm",
     poster: "/images/Dani_mlina.jpg",
-    fullVideo: "https://vimeo.com/815113070",
+    fullVideo: "/videos/dani_piva_2.mp4",
     date: "08/21",
     category: Categories.ADVERTISEMENT,
   },
